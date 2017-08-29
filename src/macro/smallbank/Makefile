@@ -1,6 +1,6 @@
 CC=g++
 CFLAGS=-std=c++11 -g -Wall -pthread -I./
-LDFLAGS= -lpthread -lrestclient-cpp
+LDFLAGS= -lpthread -lrestclient-cpp -lcurl
 SUBDIRS=api_adapters utils
 OBJECTS=api_adapters/smallbank_api.o utils/timer.o
 EXEC=driver
