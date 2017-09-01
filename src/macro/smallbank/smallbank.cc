@@ -114,12 +114,12 @@ DB* CreateDB(std::string path, std::string endpoint) {
 }
 
 int main(int argc, char* argv[]) {
-  if (argc != 6) {
+  if (argc != 7) {
     cerr << "Usage: " << argv[0]
          << " [total_ops] [thread_num] [interval] [file_path] [end_point]"
          << endl;
     cerr << "   eg: " << argv[0]
-         << " 10000 4 1000 stat.txt localhost:7050/chaincode/" << endl;
+         << " 10000 4 1000 stat.txt 127.0.0.1:8000 ethereum" << endl;
     return 0;
   }
 
@@ -133,7 +133,7 @@ int main(int argc, char* argv[]) {
   }
   os_.open(spath, std::ios::app);
 
-  DB* sb = CreateDB("DBExample", argv[5]); 
+  DB* sb = CreateDB(argv[6], argv[5]); 
 
   sb->Init(&pendingtx, &txlock_); 
 
