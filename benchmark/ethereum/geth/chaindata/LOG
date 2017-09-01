@@ -1,0 +1,26 @@
+=============== Aug 29, 2017 (SGT) ===============
+15:03:09.932973 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+15:03:09.933126 db@open opening
+15:03:09.933536 version@stat F·[] S·0B[] Sc·[]
+15:03:12.856709 db@janitor F·2 G·0
+15:03:12.856750 db@open done T·2.923613271s
+=============== Aug 29, 2017 (SGT) ===============
+15:03:49.317898 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+15:03:49.317978 version@stat F·[] S·0B[] Sc·[]
+15:03:49.317984 db@open opening
+15:03:49.318019 journal@recovery F·1
+15:03:49.318390 journal@recovery recovering @1
+15:03:49.578542 memdb@flush created L0@2 N·21267 S·1MiB "\x00\x00\xae..\x82\x88\x11,v9390":"\xff\xfc\x94..\xa5\x05\xa1,v9519"
+15:03:49.579111 version@stat F·[1] S·1MiB[1MiB] Sc·[0.25]
+15:03:49.579782 db@janitor F·3 G·0
+15:03:49.579798 db@open done T·261.79867ms
+=============== Aug 29, 2017 (SGT) ===============
+15:12:05.313330 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+15:12:05.313436 version@stat F·[1] S·1MiB[1MiB] Sc·[0.25]
+15:12:05.313457 db@open opening
+15:12:05.313507 journal@recovery F·1
+15:12:05.314223 journal@recovery recovering @3
+15:12:05.409418 memdb@flush created L0@5 N·3 S·497B "Blo..ion,v21270":"eth..ˏ\xa3,v21269"
+15:12:05.410007 version@stat F·[2] S·1MiB[1MiB] Sc·[0.50]
+15:12:05.410379 db@janitor F·4 G·0
+15:12:05.410397 db@open done T·96.930433ms
