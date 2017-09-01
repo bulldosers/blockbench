@@ -26,6 +26,11 @@ class SmallBank : public DB {
     return &sb;
   }
 
+  SmallBank() {}
+  SmallBank(std::string path, std::string endpoint) {
+    deploy(path, endpoint); 
+  }
+
   void Init(unordered_map<string, double> *pendingtx, SpinLock *lock){
     pendingtx_ = pendingtx;
     txlock_ = lock;

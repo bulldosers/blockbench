@@ -3,6 +3,7 @@
 #include <vector>
 #include <iostream>
 
+#include <thread> 
 #include "EVMDB.h"
 #include "utils/chaincode_apis.h"
 #include "utils/timer.h"
@@ -12,49 +13,16 @@ using namespace std;
 const string CHAIN_END_POINT = "/chain";
 const string BLOCK_END_POINT = "/chain/blocks";
 
-string EVMDB::get_json_field(const std::string &json,
-                                  const std::string &key) {
-  auto key_pos = json.find(key);
-  auto quote_sign_pos_1 = json.find('\"', key_pos + 1);
-  auto quote_sign_pos_2 = json.find('\"', quote_sign_pos_1 + 1);
-  auto quote_sign_pos_3 = json.find('\"', quote_sign_pos_2 + 1);
-  return json.substr(quote_sign_pos_2 + 1,
-                     quote_sign_pos_3 - quote_sign_pos_2 - 1);
-}
-
-vector<string> EVMDB::find_tx(string json){
-  vector<string> ss;
-  unsigned int key_pos = json.find("txid");
-  while (key_pos!=string::npos){
-    auto quote_sign_pos_1 = json.find('\"', key_pos + 1);
-    auto quote_sign_pos_2 = json.find('\"', quote_sign_pos_1 + 1);
-    auto quote_sign_pos_3 = json.find('\"', quote_sign_pos_2 + 1);
-    ss.push_back(json.substr(quote_sign_pos_2 + 1,
-          quote_sign_pos_3 - quote_sign_pos_2 - 1));
-    key_pos = json.find("txid", quote_sign_pos_3+1);
-  }
-  return ss;
-}
-
-int EVMDB::find_tip(string json){
-  if (json.find("Failed")!=string::npos)
-    return -1;
-  int key_pos = json.find("height");
-  auto close_quote_pos = json.find('\"',key_pos+1);
-  auto comma_pos = json.find(',', key_pos+1);
-  string sval = json.substr(close_quote_pos+2, comma_pos-close_quote_pos-2);
-  return stoi(sval);
-}
 
 // get all tx from the start_block until latest
 vector<string> EVMDB::poll_tx(int block_number) {
-  string request = endpoint_.substr(0,endpoint_.find("/chaincode"))+BLOCK_END_POINT+"/"+std::to_string(block_number);
-  return find_tx(get(request).body);
+  return poll_txs_by_block_number(endpoint_, block_number); 
 }
 
 unsigned int EVMDB::get_tip_block_number(){
-  string request = endpoint_.substr(0,endpoint_.find("/chaincode"))+CHAIN_END_POINT;
-  return find_tip(get(request).body);
+  return decode_hex(get_json_field(
+      send_jsonrpc_request(endpoint_, REQUEST_HEADERS, GET_BLOCKNUMBER),
+      "result"));
 }
 
 void EVMDB::add_to_queue(string json){
@@ -69,69 +37,75 @@ void EVMDB::add_to_queue(string json){
 void EVMDB::deploy(const std::string& path, const std::string& endpoint) {
   endpoint_ = endpoint; 
   std::vector<std::string> args;
-  cout << "deploy request " << compose_deploy(path, args) << " to " << endpoint_ << endl; 
-  Response r = post(endpoint_, REQUEST_HEADERS,
-  compose_deploy("https://github.com/ijingo/chaincode-test/EVMDB", args));
-  chaincode_name_ = get_json_field(r.body, "message");
-  cout << "Deployed new chaincode: " << chaincode_name_ << endl;
+  //string dbname = "EVMDB";
+  from_address_ = get_from_address(endpoint_);
+  string sctype_ = "";
+  auto receipt = deploy_smart_contract(endpoint_, from_address_, sctype_);
+  int deploy_wait_sec = 30;
+  std::this_thread::sleep_for(std::chrono::seconds(deploy_wait_sec));
+  to_address_ = lookup_smart_contract_address_or_die(endpoint_, receipt);
+
+  cout << "from address: " << from_address_ << endl;
+  cout << "to address: " << to_address_ << endl; 
   sleep(2);  
 }
 
 void EVMDB::Amalgate(unsigned acc1, unsigned acc2) {
-  vector<string> args;
-  args.push_back(to_string(acc1));
-  args.push_back(to_string(acc2));
-  Response r = post(endpoint_, REQUEST_HEADERS,
-       compose_invoke(chaincode_name_, "amalgate", args));
-  add_to_queue(r.body); 
+  double start_time = time_now();
+  std::string txn_hash = submit_amalgate_txn(to_string(acc1), to_string(acc2), 
+      endpoint_, from_address_, to_address_);
+  //std::cout << "amalgate:" << txn_hash << std::endl;
+  txlock_->lock();
+  (*pendingtx_)[txn_hash] = start_time;
+  txlock_->unlock(); 
 }
 
 void EVMDB::GetBalance(unsigned acc) {
-  vector<string> args;
-  args.push_back(to_string(acc));
-  Response r = post(endpoint_, REQUEST_HEADERS,
-       compose_invoke(chaincode_name_, "getBalance", args));
-  add_to_queue(r.body); 
-  // cout << compose_invoke(chaincode_name_, "getBalance", args) << endl;
+  double start_time = time_now();
+  std::string txn_hash = submit_getBalance_txn(to_string(acc),
+      endpoint_, from_address_, to_address_);
+  //std::cout << "getBalance:" << txn_hash << std::endl;
+  txlock_->lock();
+  (*pendingtx_)[txn_hash] = start_time;
+  txlock_->unlock();
 }
 
 void EVMDB::UpdateBalance(unsigned acc, unsigned amount) {
-  vector<string> args;
-  args.push_back(to_string(acc));
-  args.push_back(to_string(amount));
-  Response r = post(endpoint_, REQUEST_HEADERS,
-       compose_invoke(chaincode_name_, "updateBalance", args));
-  add_to_queue(r.body); 
-  // cout << compose_invoke(chaincode_name_, "updateBalance", args) << endl;
+  double start_time = time_now();
+  std::string txn_hash = submit_updateBalance_txn(to_string(acc), amount,
+      endpoint_, from_address_, to_address_);
+  //std::cout << "updateBalance:" << txn_hash << std::endl;
+  txlock_->lock();
+  (*pendingtx_)[txn_hash] = start_time;
+  txlock_->unlock();
 }
 
 void EVMDB::UpdateSaving(unsigned acc, unsigned amount) {
-  vector<string> args;
-  args.push_back(to_string(acc));
-  args.push_back(to_string(amount));
-  Response r = post(endpoint_, REQUEST_HEADERS,
-       compose_invoke(chaincode_name_, "updateSaving", args));
-  add_to_queue(r.body); 
-  // cout << compose_invoke(chaincode_name_, "updateSaving", args) << endl;
+  double start_time = time_now();
+  std::string txn_hash = submit_updateSaving_txn(to_string(acc), amount,
+      endpoint_, from_address_, to_address_);
+  //std::cout << "updateSaving:" << txn_hash << std::endl;
+  txlock_->lock();
+  (*pendingtx_)[txn_hash] = start_time;
+  txlock_->unlock();
 }
 
 void EVMDB::SendPayment(unsigned acc1, unsigned acc2, unsigned amount) {
-  vector<string> args;
-  args.push_back(to_string(acc1));
-  args.push_back(to_string(acc2));
-  args.push_back(to_string(amount));
-  Response r = post(endpoint_, REQUEST_HEADERS,
-       compose_invoke(chaincode_name_, "sendPayment", args));
-  add_to_queue(r.body); 
-  // cout << compose_invoke(chaincode_name_, "sendPayment", args) << endl;
+  double start_time = time_now();
+  std::string txn_hash = submit_sendPayment_txn(to_string(acc1), to_string(acc2), amount,
+      endpoint_, from_address_, to_address_);
+  //std::cout << "sendPayment:" << txn_hash << std::endl;
+  txlock_->lock();
+  (*pendingtx_)[txn_hash] = start_time;
+  txlock_->unlock();
 }
 
 void EVMDB::WriteCheck(unsigned acc, unsigned amount) {
-  vector<string> args;
-  args.push_back(to_string(acc));
-  args.push_back(to_string(amount));
-  Response r = post(endpoint_, REQUEST_HEADERS,
-       compose_invoke(chaincode_name_, "writeCheck", args));
-  add_to_queue(r.body); 
-  // cout << compose_invoke(chaincode_name_, "sendPayment", args) << endl;
+  double start_time = time_now();
+  std::string txn_hash = submit_writeCheck_txn(to_string(acc), amount,
+      endpoint_, from_address_, to_address_);
+  //std::cout << "writeCheck:" << txn_hash << std::endl;
+  txlock_->lock();
+  (*pendingtx_)[txn_hash] = start_time;
+  txlock_->unlock();
 }

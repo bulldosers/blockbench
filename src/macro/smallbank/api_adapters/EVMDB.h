@@ -11,7 +11,7 @@ using std::unordered_map;
 using std::string; 
 using std::vector; 
 
-class EVMDB : public DB {
+class EVMDB : public DB { 
  public:
   void Amalgate(unsigned acc1, unsigned acc2);
   void GetBalance(unsigned acc);
@@ -23,7 +23,12 @@ class EVMDB : public DB {
   static EVMDB* GetInstance(std::string path, std::string endpoint) {
     static EVMDB sb;
     sb.deploy(path, endpoint);
-    return &sb;
+    return &sb; 
+  }
+
+  EVMDB() {}
+  EVMDB(std::string path, std::string endpoint) {
+    deploy(path, endpoint);
   }
 
   void Init(unordered_map<string, double> *pendingtx, SpinLock *lock){
@@ -35,13 +40,13 @@ class EVMDB : public DB {
 
   unsigned int get_tip_block_number();
   vector<string> poll_tx(int block_number);
-  int find_tip(string json);
-  vector<string> find_tx(string json); 
-  string get_json_field(const string &json, const string &key); 
+  //int find_tip(string json);
+  //vector<string> find_tx(string json); 
+  //string get_json_field(const string &json, const string &key); 
  private:
   void deploy(const std::string& path, const std::string& endpoint);
   void add_to_queue(string json); 
-  std::string chaincode_name_, endpoint_;
+  std::string chaincode_name_, endpoint_, from_address_, to_address_;
   unordered_map<string, double> *pendingtx_; 
   SpinLock *txlock_; 
 };

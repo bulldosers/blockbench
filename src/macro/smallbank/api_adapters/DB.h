@@ -34,9 +34,9 @@ class DB {
 
   virtual unsigned int get_tip_block_number()=0;
   virtual vector<string> poll_tx(int block_number)=0;
-  virtual int find_tip(string json)=0;
-  virtual vector<string> find_tx(string json)=0; 
-  virtual string get_json_field(const string &json, const string &key)=0; 
+  //virtual int find_tip(string json)=0;
+  //virtual vector<string> find_tx(string json)=0; 
+  //virtual string get_json_field(const string &json, const string &key)=0; 
  private:
   virtual void deploy(const std::string& path, const std::string& endpoint)=0;
   virtual void add_to_queue(string json)=0; 
