@@ -3,7 +3,7 @@
 #include <vector>
 #include <iostream>
 
-#include "evm_api.h"
+#include "EVMDB.h"
 #include "utils/chaincode_apis.h"
 #include "utils/timer.h"
 
@@ -12,7 +12,7 @@ using namespace std;
 const string CHAIN_END_POINT = "/chain";
 const string BLOCK_END_POINT = "/chain/blocks";
 
-string EVMSmallBank::get_json_field(const std::string &json,
+string EVMDB::get_json_field(const std::string &json,
                                   const std::string &key) {
   auto key_pos = json.find(key);
   auto quote_sign_pos_1 = json.find('\"', key_pos + 1);
@@ -22,9 +22,9 @@ string EVMSmallBank::get_json_field(const std::string &json,
                      quote_sign_pos_3 - quote_sign_pos_2 - 1);
 }
 
-vector<string> EVMSmallBank::find_tx(string json){
+vector<string> EVMDB::find_tx(string json){
   vector<string> ss;
-  int key_pos = json.find("txid");
+  unsigned int key_pos = json.find("txid");
   while (key_pos!=string::npos){
     auto quote_sign_pos_1 = json.find('\"', key_pos + 1);
     auto quote_sign_pos_2 = json.find('\"', quote_sign_pos_1 + 1);
@@ -36,7 +36,7 @@ vector<string> EVMSmallBank::find_tx(string json){
   return ss;
 }
 
-int EVMSmallBank::find_tip(string json){
+int EVMDB::find_tip(string json){
   if (json.find("Failed")!=string::npos)
     return -1;
   int key_pos = json.find("height");
@@ -47,17 +47,17 @@ int EVMSmallBank::find_tip(string json){
 }
 
 // get all tx from the start_block until latest
-vector<string> EVMSmallBank::poll_tx(int block_number) {
+vector<string> EVMDB::poll_tx(int block_number) {
   string request = endpoint_.substr(0,endpoint_.find("/chaincode"))+BLOCK_END_POINT+"/"+std::to_string(block_number);
   return find_tx(get(request).body);
 }
 
-unsigned int EVMSmallBank::get_tip_block_number(){
+unsigned int EVMDB::get_tip_block_number(){
   string request = endpoint_.substr(0,endpoint_.find("/chaincode"))+CHAIN_END_POINT;
   return find_tip(get(request).body);
 }
 
-void EVMSmallBank::add_to_queue(string json){
+void EVMDB::add_to_queue(string json){
   double start_time = time_now();
   string txn_hash = get_json_field(json, "message"); 
   txlock_->lock(); 
@@ -66,18 +66,18 @@ void EVMSmallBank::add_to_queue(string json){
 }
 
 // no error handler, assume always success
-void EVMSmallBank::deploy(const std::string& path, const std::string& endpoint) {
+void EVMDB::deploy(const std::string& path, const std::string& endpoint) {
   endpoint_ = endpoint; 
   std::vector<std::string> args;
   cout << "deploy request " << compose_deploy(path, args) << " to " << endpoint_ << endl; 
   Response r = post(endpoint_, REQUEST_HEADERS,
-  compose_deploy("https://github.com/ijingo/chaincode-test/EVMsmallbank", args));
+  compose_deploy("https://github.com/ijingo/chaincode-test/EVMDB", args));
   chaincode_name_ = get_json_field(r.body, "message");
   cout << "Deployed new chaincode: " << chaincode_name_ << endl;
   sleep(2);  
 }
 
-void EVMSmallBank::Amalgate(unsigned acc1, unsigned acc2) {
+void EVMDB::Amalgate(unsigned acc1, unsigned acc2) {
   vector<string> args;
   args.push_back(to_string(acc1));
   args.push_back(to_string(acc2));
@@ -86,7 +86,7 @@ void EVMSmallBank::Amalgate(unsigned acc1, unsigned acc2) {
   add_to_queue(r.body); 
 }
 
-void EVMSmallBank::GetBalance(unsigned acc) {
+void EVMDB::GetBalance(unsigned acc) {
   vector<string> args;
   args.push_back(to_string(acc));
   Response r = post(endpoint_, REQUEST_HEADERS,
@@ -95,7 +95,7 @@ void EVMSmallBank::GetBalance(unsigned acc) {
   // cout << compose_invoke(chaincode_name_, "getBalance", args) << endl;
 }
 
-void EVMSmallBank::UpdateBalance(unsigned acc, unsigned amount) {
+void EVMDB::UpdateBalance(unsigned acc, unsigned amount) {
   vector<string> args;
   args.push_back(to_string(acc));
   args.push_back(to_string(amount));
@@ -105,7 +105,7 @@ void EVMSmallBank::UpdateBalance(unsigned acc, unsigned amount) {
   // cout << compose_invoke(chaincode_name_, "updateBalance", args) << endl;
 }
 
-void EVMSmallBank::UpdateSaving(unsigned acc, unsigned amount) {
+void EVMDB::UpdateSaving(unsigned acc, unsigned amount) {
   vector<string> args;
   args.push_back(to_string(acc));
   args.push_back(to_string(amount));
@@ -115,7 +115,7 @@ void EVMSmallBank::UpdateSaving(unsigned acc, unsigned amount) {
   // cout << compose_invoke(chaincode_name_, "updateSaving", args) << endl;
 }
 
-void EVMSmallBank::SendPayment(unsigned acc1, unsigned acc2, unsigned amount) {
+void EVMDB::SendPayment(unsigned acc1, unsigned acc2, unsigned amount) {
   vector<string> args;
   args.push_back(to_string(acc1));
   args.push_back(to_string(acc2));
@@ -126,7 +126,7 @@ void EVMSmallBank::SendPayment(unsigned acc1, unsigned acc2, unsigned amount) {
   // cout << compose_invoke(chaincode_name_, "sendPayment", args) << endl;
 }
 
-void EVMSmallBank::WriteCheck(unsigned acc, unsigned amount) {
+void EVMDB::WriteCheck(unsigned acc, unsigned amount) {
   vector<string> args;
   args.push_back(to_string(acc));
   args.push_back(to_string(amount));

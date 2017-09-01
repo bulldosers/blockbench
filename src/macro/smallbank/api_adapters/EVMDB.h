@@ -1,17 +1,17 @@
-#ifndef SMARTCONTRACT_DRIVERS_EVMSMALLBANK_H_
-#define SMARTCONTRACT_DRIVERS_EVMSMALLBANK_H_
+#ifndef SMARTCONTRACT_DRIVERS_EVMDB_H_
+#define SMARTCONTRACT_DRIVERS_EVMDB_H_
 
 #include <string>
+#include "DB.h"
 #include "utils/timer.h"
 #include "utils/utils.h"
-#include "smallbank_api.h"
 #include <unordered_map>
 #include <vector>
 using std::unordered_map; 
 using std::string; 
 using std::vector; 
 
-class EVMSmallBank {
+class EVMDB : public DB {
  public:
   void Amalgate(unsigned acc1, unsigned acc2);
   void GetBalance(unsigned acc);
@@ -20,8 +20,8 @@ class EVMSmallBank {
   void SendPayment(unsigned acc1, unsigned acc2, unsigned amount);
   void WriteCheck(unsigned acc, unsigned amount);
 
-  static EVMSmallBank* GetInstance(std::string path, std::string endpoint) {
-    static EVMSmallBank sb;
+  static EVMDB* GetInstance(std::string path, std::string endpoint) {
+    static EVMDB sb;
     sb.deploy(path, endpoint);
     return &sb;
   }
@@ -31,7 +31,7 @@ class EVMSmallBank {
     txlock_ = lock;
   }
 
-  ~EVMSmallBank() {}
+  ~EVMDB() {}
 
   unsigned int get_tip_block_number();
   vector<string> poll_tx(int block_number);

@@ -2,6 +2,7 @@
 #define SMARTCONTRACT_DRIVERS_SMALLBANK_H_
 
 #include <string>
+#include "DB.h"
 #include "utils/timer.h"
 #include "utils/utils.h"
 #include <unordered_map>
@@ -10,7 +11,7 @@ using std::unordered_map;
 using std::string; 
 using std::vector; 
 
-class SmallBank {
+class SmallBank : public DB {
  public:
   void Amalgate(unsigned acc1, unsigned acc2);
   void GetBalance(unsigned acc);
