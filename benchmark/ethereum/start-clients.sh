@@ -20,3 +20,5 @@ for host in `cat $HOSTS`; do
   fi
 done
 
+
+./driver -db ethereum -threads 2 -P workloads/workloada.spec -endpoint 127.0.0.1:8000 -txrate 5 > $LOG_DIR/client 2>&1

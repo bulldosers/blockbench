@@ -220,10 +220,14 @@ std::string encode_set(const std::string &key, const std::string &value) {
   std::string argument_1 = encode_string(key);
   ret += left_padding_string(encode_hex(argument_1.length()));
   ret += argument_1 + encode_string(value);
+  //----------------------------------------
+  std::cout<<"encode_set{ret:"<<ret<<"$key:"<<key<<"$value:"<<value<<std::endl;
   return ret;
 }
 
 std::string encode_get(const std::string &key) {
+  //----------------------------------------
+  std::cout<<"encode_get{"<<GET_METHOD_SIG + encode_string(key)<<std::endl;
   return GET_METHOD_SIG + encode_string(key);
 }
 

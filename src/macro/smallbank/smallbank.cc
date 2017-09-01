@@ -6,7 +6,8 @@
 #include <atomic>
 #include <sstream>
 #include <fstream>
-#include "api_adapters/smallbank_api.h"
+
+#include "api_adapters/evm_api.h"
 #include "utils/generators.h"
 #include "utils/timer.h"
 #include "utils/statistic.h"
@@ -28,7 +29,7 @@ const int BLOCK_POLLING_INTEVAL = 2;
 SpinLock spinlock_, txlock_;
 std::unordered_map<string, double> pendingtx; 
 
-void ClientThread(SmallBank* sb, const int num_ops, const int ivl) {
+void ClientThread(EVMSmallBank* sb, const int num_ops, const int ivl) {
   UniformGenerator op_gen(1, 6);
   UniformGenerator acc_gen(1, 100000);
   UniformGenerator bal_gen(1, 10);
@@ -59,7 +60,7 @@ void ClientThread(SmallBank* sb, const int num_ops, const int ivl) {
   }
 }
 
-int StatusThread(SmallBank* sb, string endpoint, double interval, int start_block_height){
+int StatusThread(EVMSmallBank* sb, string endpoint, double interval, int start_block_height){
   int cur_block_height = start_block_height;
   long start_time;
   long end_time;
@@ -120,7 +121,8 @@ int main(int argc, char* argv[]) {
   }
   os_.open(spath, std::ios::app);
 
-  SmallBank* sb = SmallBank::GetInstance("SmallbankExample", argv[5]);
+  EVMSmallBank* sb = EVMSmallBank::GetInstance("EVMSmallbankExample", argv[5]);
+
   sb->Init(&pendingtx, &txlock_); 
 
   int current_tip = sb->get_tip_block_number();
