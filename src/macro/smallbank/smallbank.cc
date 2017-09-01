@@ -103,6 +103,16 @@ int StatusThread(DB* sb, string endpoint, double interval, int start_block_heigh
 
 }
 
+DB* CreateDB(std::string path, std::string endpoint) {
+  if (path == "hyperledger") {
+    return SmallBank::GetInstance(path, endpoint); 
+  } else if (path == "ethereum" || path == "parity") {
+    return EVMDB::GetInstance(path, endpoint); 
+  } else {
+    return NULL;
+  }
+}
+
 int main(int argc, char* argv[]) {
   if (argc != 6) {
     cerr << "Usage: " << argv[0]
@@ -123,7 +133,7 @@ int main(int argc, char* argv[]) {
   }
   os_.open(spath, std::ios::app);
 
-  DB* sb = EVMDB::GetInstance("DBExample", argv[5]); 
+  DB* sb = CreateDB("DBExample", argv[5]); 
 
   sb->Init(&pendingtx, &txlock_); 
 
