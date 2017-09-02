@@ -62,7 +62,7 @@ void ClientThread(DB* sb, const int num_ops, const int ivl) {
   }
 }
 
-int StatusThread(DB* sb, string endpoint, double interval, int start_block_height){
+int StatusThread(DB* sb, string dbname, string endpoint, double interval, int start_block_height){
   int cur_block_height = start_block_height;
   long start_time;
   long end_time;
@@ -81,7 +81,11 @@ int StatusThread(DB* sb, string endpoint, double interval, int start_block_heigh
       long block_time = time_now(); 
       txlock_.lock();
       for (string tmp : txs){
-        string s = tmp; 
+        //string s = tmp; 
+        string s = (dbname == "ethereum" || dbname == "parity")
+                      ? tmp.substr(1, tmp.length() - 2)  // get rid of ""
+                       : tmp;
+        //std::cout << "txs:" << tmp << std::endl;
         if (pendingtx.find(s)!=pendingtx.end()){ 
           txcount++; 
           latency += (block_time - pendingtx[s]); 
@@ -149,7 +153,7 @@ int main(int argc, char* argv[]) {
   for (int i = 0; i < thread_num; ++i) {
     threads.emplace_back(ClientThread, sb, total_ops / thread_num, ivl);
   }
-  threads.emplace_back(StatusThread, sb, argv[5], BLOCK_POLLING_INTEVAL, current_tip);
+  threads.emplace_back(StatusThread, sb, argv[6], argv[5], BLOCK_POLLING_INTEVAL, current_tip);
 
 
   for (auto& th : threads) th.join();
