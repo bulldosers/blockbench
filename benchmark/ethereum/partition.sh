@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "partition.sh"
+
 nodeX=$1
 nodeY=$2
 time=$3

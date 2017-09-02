@@ -34,23 +34,23 @@ void EVMDB::add_to_queue(string json){
 }
 
 // no error handler, assume always success
-void EVMDB::deploy(const std::string& path, const std::string& endpoint) {
+void EVMDB::deploy(const std::string& dbname, const std::string& endpoint) {
   endpoint_ = endpoint; 
-  std::vector<std::string> args;
-  //string dbname = "EVMDB";
+  std::vector<std::string> args; 
   from_address_ = get_from_address(endpoint_);
-  string sctype_ = "";
-  auto receipt = deploy_smart_contract(endpoint_, from_address_, sctype_);
-  int deploy_wait_sec = 30;
+  evmtype_ = (dbname == "parity") ? EVMType::Parity : EVMType::Ethereum;
+  if (evmtype_ == EVMType::Parity) unlock_address(endpoint_, from_address_);
+  auto receipt = deploy_smart_contract(endpoint_, from_address_, "smallbank");
+  int deploy_wait_sec = 20;
   std::this_thread::sleep_for(std::chrono::seconds(deploy_wait_sec));
   to_address_ = lookup_smart_contract_address_or_die(endpoint_, receipt);
-
   cout << "from address: " << from_address_ << endl;
   cout << "to address: " << to_address_ << endl; 
-  sleep(2);  
+  //sleep(2);  
 }
 
 void EVMDB::Amalgate(unsigned acc1, unsigned acc2) {
+  if (evmtype_ == EVMType::Parity) unlock_address(endpoint_, from_address_);
   double start_time = time_now();
   std::string txn_hash = submit_amalgate_txn(to_string(acc1), to_string(acc2), 
       endpoint_, from_address_, to_address_);
@@ -61,6 +61,7 @@ void EVMDB::Amalgate(unsigned acc1, unsigned acc2) {
 }
 
 void EVMDB::GetBalance(unsigned acc) {
+  if (evmtype_ == EVMType::Parity) unlock_address(endpoint_, from_address_);
   double start_time = time_now();
   std::string txn_hash = submit_getBalance_txn(to_string(acc),
       endpoint_, from_address_, to_address_);
@@ -71,6 +72,7 @@ void EVMDB::GetBalance(unsigned acc) {
 }
 
 void EVMDB::UpdateBalance(unsigned acc, unsigned amount) {
+  if (evmtype_ == EVMType::Parity) unlock_address(endpoint_, from_address_);
   double start_time = time_now();
   std::string txn_hash = submit_updateBalance_txn(to_string(acc), amount,
       endpoint_, from_address_, to_address_);
@@ -81,6 +83,7 @@ void EVMDB::UpdateBalance(unsigned acc, unsigned amount) {
 }
 
 void EVMDB::UpdateSaving(unsigned acc, unsigned amount) {
+  if (evmtype_ == EVMType::Parity) unlock_address(endpoint_, from_address_);
   double start_time = time_now();
   std::string txn_hash = submit_updateSaving_txn(to_string(acc), amount,
       endpoint_, from_address_, to_address_);
@@ -91,6 +94,7 @@ void EVMDB::UpdateSaving(unsigned acc, unsigned amount) {
 }
 
 void EVMDB::SendPayment(unsigned acc1, unsigned acc2, unsigned amount) {
+  if (evmtype_ == EVMType::Parity) unlock_address(endpoint_, from_address_);
   double start_time = time_now();
   std::string txn_hash = submit_sendPayment_txn(to_string(acc1), to_string(acc2), amount,
       endpoint_, from_address_, to_address_);
@@ -101,6 +105,7 @@ void EVMDB::SendPayment(unsigned acc1, unsigned acc2, unsigned amount) {
 }
 
 void EVMDB::WriteCheck(unsigned acc, unsigned amount) {
+  if (evmtype_ == EVMType::Parity) unlock_address(endpoint_, from_address_);
   double start_time = time_now();
   std::string txn_hash = submit_writeCheck_txn(to_string(acc), amount,
       endpoint_, from_address_, to_address_);

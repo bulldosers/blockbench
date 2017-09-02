@@ -3,6 +3,7 @@
 cd `dirname ${BASH_SOURCE-$0}`
 . env.sh
 
+echo "start-multi-clients.sh"
 let i=0
 let IDX=$1/2
 for client in `cat $CLIENTS`; do

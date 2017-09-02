@@ -3,6 +3,7 @@
 cd `dirname ${BASH_SOURCE-$0}`
 . env.sh
 
+echo "run-bench-security.sh"
 ./stop-all.sh $1 
 
 ./init-all.sh $1 

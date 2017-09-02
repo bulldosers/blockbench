@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <cassert>
 
 //const std::string REQUEST_HEADERS = "text/json";
 const std::string REQUEST_HEADERS = "application/json";
@@ -277,7 +278,7 @@ inline std::string lookup_smart_contract_address_or_die(const std::string &endpo
   auto r = send_jsonrpc_request(endpoint, REQUEST_HEADERS,
                                 GET_SMART_CONTRACT_ADDRESS_PREFIX + receipt +
                                     GET_SMART_CONTRACT_ADDRESS_SUFFIX);
-  //assert(r.find("\"result\":null") == std::string::npos);
+  assert(r.find("\"result\":null") == std::string::npos);
   return get_json_field(r, "contractAddress");
 }
 

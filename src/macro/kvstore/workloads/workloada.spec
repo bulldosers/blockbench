@@ -9,8 +9,8 @@
 recordcount=1000000
 operationcount=10000
 #workload=com.yahoo.ycsb.workloads.CoreWorkload
-#workload=ycsb
-workload=smallbank
+workload=ycsb
+#workload=smallbank
 
 readallfields=true
 

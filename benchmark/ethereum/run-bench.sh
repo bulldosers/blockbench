@@ -3,15 +3,22 @@
 cd `dirname ${BASH_SOURCE-$0}`
 . env.sh
 
+echo "run-bench.sh"
 ./stop-all.sh $1 
 
 ./init-all.sh $1 
 ./start-all.sh $1 
 
 let M=240+40*$1
+echo "sleep $M"
 sleep $M
 
 ./start-multi-clients.sh $3 $1 $2 $4 $5 
+
+#run 600s
+let N=600
+echo "run $N"
+sleep $N
 #BACK=$!
 #sleep 100
 #python partition.py $1

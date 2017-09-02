@@ -10,9 +10,6 @@ contract SmallBank {
     
     mapping(string=>uint) savingStore;
     mapping(string=>uint) checkingStore;
-    mapping(string=>uint) accountStore;
-    
-    event showBalance(uint balance);
 
     function almagate(string arg0, string arg1) {
        uint bal1 = savingStore[arg0];
@@ -22,21 +19,19 @@ contract SmallBank {
        savingStore[arg1] = bal1 + bal2;
     }
 
-    function getBalance(string arg0)  {
+    function getBalance(string arg0) constant returns (uint balance) {
         uint bal1 = savingStore[arg0];
         uint bal2 = checkingStore[arg0];
         
-        uint balance = bal1 + bal2;
-        showBalance(balance);
+        balance = bal1 + bal2;
+        return balance;
     }
     
     function updateBalance(string arg0, uint arg1) {
         uint bal1 = checkingStore[arg0];
         uint bal2 = arg1;
         
-        uint balance = bal1 + bal2;
-        checkingStore[arg0] = balance;
-        showBalance(balance);
+        checkingStore[arg0] = bal1 + bal2;
     }
     
     function updateSaving(string arg0, uint arg1) {
@@ -92,3 +87,4 @@ contract SmallBank {
         return v;
     }
 }
+

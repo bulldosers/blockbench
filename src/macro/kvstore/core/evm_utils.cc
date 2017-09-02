@@ -220,14 +220,10 @@ std::string encode_set(const std::string &key, const std::string &value) {
   std::string argument_1 = encode_string(key);
   ret += left_padding_string(encode_hex(argument_1.length()));
   ret += argument_1 + encode_string(value);
-  //----------------------------------------
-  std::cout<<"encode_set{ret:"<<ret<<"$key:"<<key<<"$value:"<<value<<std::endl;
   return ret;
 }
 
 std::string encode_get(const std::string &key) {
-  //----------------------------------------
-  std::cout<<"encode_get{"<<GET_METHOD_SIG + encode_string(key)<<std::endl;
   return GET_METHOD_SIG + encode_string(key);
 }
 
@@ -322,6 +318,7 @@ std::string deploy_smart_contract(const std::string &endpoint,
       break;
   }
   auto r = send_jsonrpc_request(endpoint, REQUEST_HEADERS, txn_data);
+  std::cout << "deploy result:" << get_json_field(r, "result") << std::endl;
   return get_json_field(r, "result");
 }
 
