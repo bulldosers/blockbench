@@ -6,7 +6,7 @@
 
 3. [DoNothing experiments:](donothing_exps.md) where transactions return right away. 
 
-The experiments results are in `/data/dinhtta/blockbench_exps_results/hyperledger' in the head node. 
+The experiments results are in `/data/fuwanzeng/blockbench_exps_results/hyperledger' in the head node. 
 
 
 ## Parameters
@@ -20,7 +20,7 @@ example file contains 32 hosts
 node. The example file contains 16 hosts
 + `$LOG_DIR`: directory where the logs are stored. NFS-mounted directories are recommended.  
 + `$EXE_HOME`: containing the executable for driving the workloads (ycsb or smallbank). 
-    + YCSB: `$ETH_HOME/../src/ycsb`
+    + YCSB: `$ETH_HOME/../src/macro/kvstore`
     + Smallbank: `$ETH_HOME/../src/smallbank/ycsb`
 + `$BENCHMARK`: name of the benchmark (ycsb or smallbank)
 

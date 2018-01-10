@@ -8,7 +8,7 @@ let K=4
 for client in `cat $HOSTS`; do
   if [[ $i -lt $K ]]; then
     echo $client index $i
-    ssh -oStrictHostKeyChecking=no $client 'cd /users/dinhtta/blockchain-perf/hyperledger-fabric/scripts ; ./start-clients-drop4.sh '$3 $i $2
+    ssh -oStrictHostKeyChecking=no $client 'cd /users/fuwanzeng/blockchain-perf/hyperledger-fabric/scripts ; ./start-clients-drop4.sh '$3 $i $2
   fi
   let i=$i+1
 done

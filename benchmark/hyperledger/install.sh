@@ -7,6 +7,7 @@ cd `dirname ${BASH_SOURCE-$0}`
 sudo cp docker /etc/default/
 sudo service docker restart
 sudo apt-get install -y libsnappy-dev zlib1g-dev libbz2-dev
+mkdir -p $HL_DATA
 cd $HL_DATA
 wget https://storage.googleapis.com/golang/go1.7.3.linux-amd64.tar.gz
 tar -zxvf go1.7.3.linux-amd64.tar.gz

@@ -1,0 +1,5 @@
+result:{"jsonrpc":"2.0","id":1,"result":"0x9884e6cd92aac811bb16634fac65f20843b881b4603a83b5ecb59a835d9ffe1d"}
+
+contractAddress:{"jsonrpc":"2.0","id":1,"result":null}
+
+driver: evm_utils.cc:331: std::string BBUtils::EVMUtils::lookup_smart_contract_address_or_die(const string&, const string&): Assertion `r.find("\"result\":null") == std::string::npos' failed.

@@ -1,0 +1,21 @@
+[parity]
+chain = "chain_spec.json"
+base_path = "base_path"
+[network]
+port = 30300
+[rpc]
+port = 8545
+apis = ["web3", "eth", "net", "personal", "parity", "parity_set", "traces", "rpc", "parity_accounts"]
+[account]
+password = ["node.pwds"]
+unlock =["0x29b5363d816924d4d3a0c9377b4fe418d45fd5f8"]
+[footprint]
+scale_verifiers = true
+num_verifiers = 8
+[mining]
+tx_queue_size = 10240
+reseal_on_txs = "none"
+gas_floor_target = "0xf0000000000000"
+usd_per_tx = "0.0"
+tx_gas_limit = "0xf0000000000000"
+engine_signer = "0x29b5363d816924d4d3a0c9377b4fe418d45fd5f8"
