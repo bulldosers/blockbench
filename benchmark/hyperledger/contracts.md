@@ -69,7 +69,7 @@ returned (and effectively, only one chaincode is running).
 
 ### Local deployment 
 A chaincode can be deploy from the *peer's filesystem*, for example at
-`/data/dinhtta/chaincode/test`. In a cluster, this can be on the peer's NFS directory.  
+`/data/fuwanzeng/chaincode/test`. In a cluster, this can be on the peer's NFS directory.  
 
 + One way to do it is with `$HL_SOURCE/build/bin/peer`, as follows:
 
@@ -79,13 +79,13 @@ A chaincode can be deploy from the *peer's filesystem*, for example at
   By default, the chaincode is written in Go. For Java chaincode, use `-l java`. 
 
   **IMPORTANT** For Go chaincode, `<path>` **MUST be relative to `$GOPATH/src`** (absolute paths do not work
-  in my experience). For instance, if `$GOPATH=/data/dinhtta`, then one must first do:
+  in my experience). For instance, if `$GOPATH=/data/fuwanzeng`, then one must first do:
 
-      `cp -r /data/dinhtta/chaincode/test $GOPATH/src/`
+      `cp -r /data/fuwanzeng/chaincode/test $GOPATH/src/`
   
   Having done this, `<path>` is simply `test`. 
 
-  For Java chaincode, `<path>` should be an absolute path. For instance, `/data/dinhtta/chaincode/test`
+  For Java chaincode, `<path>` should be an absolute path. For instance, `/data/fuwanzeng/chaincode/test`
 
 + Another way to do it is to send a REST request to the peer's chaincode RPC endpoint `<host>:7050/chaincode`.
 In particular:

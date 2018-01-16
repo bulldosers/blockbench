@@ -1,0 +1,8 @@
+#Node.js libraries
+node_modules/
+data/
+package-lock.json
+.node-*
+*.log
+*data*/
+history/

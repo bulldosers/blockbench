@@ -120,7 +120,7 @@ int StatusThread(DB* sb, string dbname, string endpoint, double interval, int st
     //sleep in nanosecond
     utils::sleep(interval - (end_time - start_time) / 1000000000.0);
   }
-
+return 0;
 }
 
 DB* CreateDB(std::string dbname, std::string endpoint) {
