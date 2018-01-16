@@ -4,7 +4,7 @@ CLIENTS=$QUO_HOME/clients
 QUO_DATA=/data/fuwanzeng/quorum_raft
 LOG_DIR=$QUO_HOME/../data/raft
 EXE_HOME=$QUO_HOME/../../src/macro/kvstore
-BENCHMARK=ycsb
+BENCHMARK=smallbank
 QUORUM=~/download/quorum/build/bin/geth
 ADDRESSES=$QUO_HOME/addresses
 

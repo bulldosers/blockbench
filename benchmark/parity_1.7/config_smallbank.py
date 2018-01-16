@@ -1,12 +1,12 @@
-NS=[8]
+NS=[2,4,8,12,16]
 NODES=['10.0.0.{}'.format(x) for x in range(3,36)]
 
 CLIENTS=['10.0.0.{}'.format(x) for x in range(85,100)]
 PORT='8545'
-#THREADS=[2,4,8,16,32]
-#RATES=[1,2,4,8,12,16]
-THREADS=[32]
-RATES=[8,16]
+#THREADS=[4,8,16,32]
+#RATES=[4,8,16]
+THREADS=[32,16]
+RATES=[16,8]
 
 HOME_DIR='/users/fuwanzeng/blockchain-perf/benchmark/parity_1.7'
 CHAIN_DATA='/data/fuwanzeng/chain-data'

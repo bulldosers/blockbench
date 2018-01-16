@@ -13,7 +13,7 @@ def run_benchmark(name, param):
   os.system(run_cmd.format(param))
 
 if __name__=='__main__':
-  run_benchmark('ycsb','')
+  #run_benchmark('ycsb','')
   #run_benchmark('saturation', '')
   #time.sleep(10)
   #run_benchmark('security', '-security')
@@ -24,7 +24,7 @@ if __name__=='__main__':
   #time.sleep(10)
   #run_benchmark('drop', '-drop')
   #time.sleep(10)
-  #run_benchmark('smallbank', '-smallbank')
+  run_benchmark('smallbank', '-smallbank')
   #time.sleep(10)
   #run_benchmark('donothing', '-donothing')
   #time.sleep(10)

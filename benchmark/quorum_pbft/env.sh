@@ -1,10 +1,11 @@
+
 QUO_HOME=~/blockchain-perf/benchmark/quorum_pbft
 HOSTS=$QUO_HOME/hosts
 CLIENTS=$QUO_HOME/clients
 QUO_DATA=/data/fuwanzeng/quorum_pbft
 LOG_DIR=$QUO_HOME/../data/pbft
 EXE_HOME=$QUO_HOME/../../src/macro_1.7/kvstore
-BENCHMARK=ycsb
+BENCHMARK=smallbank
 QUORUM=~/download/quorum/build/bin/geth
 ADDRESSES=$QUO_HOME/addresses
 
