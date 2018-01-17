@@ -80,7 +80,7 @@ inline std::string compose_deploy(const std::string& path,
 const std::string DEPLOY_SMARTCONTRACT_PREFIX =
     " {\"jsonrpc\":\"2.0\",\
   \"method\":\"eth_sendTransaction\",\
-  \"params\": [{ \"gas\": \"0x1000000\",\
+  \"params\": [{ \"gas\": \"0x100000\",\
                 \"gasPrice\": \"0x0\", \
                \"from\": \"";
 
@@ -118,7 +118,7 @@ const std::string SEND_TXN_PREFIX =
     "{\
   \"jsonrpc\": \"2.0\", \
   \"method\": \"eth_sendTransaction\", \
-  \"params\": [{ \"gas\": \"0x1000000\", \
+  \"params\": [{ \"gas\": \"0x100000\", \
                 \"gasPrice\": \"0x0\", \
                 \"from\": \"";
 
@@ -126,7 +126,7 @@ const std::string CALL_PREFIX =
     "{\
   \"jsonrpc\": \"2.0\", \
   \"method\": \"eth_call\", \
-  \"params\": [{ \"gas\": \"0x1000000\",\
+  \"params\": [{ \"gas\": \"0x100000\",\
                 \"gasPrice\": \"0x0\", \
                 \"from\": \"";
 
