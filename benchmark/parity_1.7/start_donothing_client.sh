@@ -5,10 +5,10 @@ LOG=$3
 RATE=$4
 
 cd `dirname ${BASH_SOURCE-$0}`
-EXE="../../src/macro/kvstore/driver"
+EXE="../../src/macro_1.7/kvstore/driver"
 
 export CPATH=/users/dinhtta/local/include
 export LIBRARY_PATH=/users/dinhtta/local/lib:$LIBRARY_PATH
 export LD_LIBRARY_PATH=/users/dinhtta/local/lib:$LD_LIBRARY_PATH
 
-nohup $EXE -db parity -threads $THREADS -P ../../src/macro/kvstore/workloads/workloada.spec -endpoint $HOST -txrate $RATE > $LOG 2>&1 &
+nohup $EXE -db parity -threads $THREADS -P ../../src/macro_1.7/kvstore/workloads/workloada.spec -endpoint $HOST -txrate $RATE > $LOG 2>&1 &
