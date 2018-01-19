@@ -15,7 +15,7 @@ LOG_DIR='/data/fuwanzeng/logs/parity'
 #CLIENT_LOG='logs_smallbank'
 
 PARITY_EXE='/users/fuwanzeng/download/parity-1.7.0/target/release/parity'
-CLIENT_LOG='logs_smallbank_1.7.0'
+CLIENT_LOG='../data/parity_1.7.0'
 
 CLIENT_DRIVER='start_smallbank_client.sh'
 

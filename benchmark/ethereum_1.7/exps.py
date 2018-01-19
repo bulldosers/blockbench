@@ -14,7 +14,7 @@ THREADS=[32]
 EXPS=[(32,16), (32,8), (16,16), (16,8)]
 #EXPS=[(32,8)]
 ENV='env.sh'
-NNODES=[2,4,8,12,16]
+NNODES=[4]
 
 def change_config(run_no):
   f = open(ENV,'r')

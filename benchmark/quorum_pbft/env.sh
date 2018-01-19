@@ -1,4 +1,3 @@
-
 QUO_HOME=~/blockchain-perf/benchmark/quorum_pbft
 HOSTS=$QUO_HOME/hosts
 CLIENTS=$QUO_HOME/clients

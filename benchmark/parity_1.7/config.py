@@ -11,13 +11,13 @@ RATES=[16,8]
 HOME_DIR='/users/fuwanzeng/blockchain-perf/benchmark/parity_1.7'
 CHAIN_DATA='/data/fuwanzeng/chain-data'
 LOG_DIR='/data/fuwanzeng/logs/parity'
-#PARITY_EXE='/users/dinhtta/.cargo/bin/parity' 
-#CLIENT_LOG='ycsb_1.6' 
-
-CLIENT_DRIVER='start_ycsb_client.sh'
+#PARITY_EXE='/users/dinhtta/.cargo/bin/parity'
+#CLIENT_LOG='logs_smallbank'
 
 PARITY_EXE='/users/fuwanzeng/download/parity-1.7.0/target/release/parity'
-CLIENT_LOG='../data/parity1.7'
+CLIENT_LOG='../data/parity_1.7.0'
+
+CLIENT_DRIVER='start_smallbank_client.sh'
 
 enode_command = 'curl --data \'{{"jsonrpc": "2.0", "method": "parity_enode", "params":[], "id": 0}}\' -H "Content-Type: application/json" -X POST {}:{}'
 add_peer = 'curl --data \'{{"jsonrpc": "2.0", "method": "parity_addReservedPeer", "params":["{}"], "id": 0}}\' -H "Content-Type: application/json" -X POST {}:{}'
