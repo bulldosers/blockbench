@@ -21,9 +21,9 @@ for host in `cat $HOSTS`; do
     cd $EXE_HOME
     #both ycsbc and smallbank use the same driver
     #nohup ./driver -db ethereum -threads $1 -P workloads/workloada.spec -endpoint $host:8000 -txrate $4 > $LOG_DIR/client_$host"_"$1 2>&1 &
-     #nohup ./driver -P workloads/workloada.spec -threads $1 -endpoint $host:8000 -txrate $4 -db ethereum > $LOG_DIR/client_$host"_"$1 2>&1 &
+    nohup ./driver -P workloads/workloada.spec -threads $1 -endpoint $host:8000 -txrate $4 -db ethereum > $LOG_DIR/client_$host"_"$1 2>&1 &
 
-    nohup ./driver -ops 10000 -threads $1 -endpoint $host:8000 -txrate $4 -db ethereum > $LOG_DIR/client_$host"_"$1 2>&1 &
+    #nohup ./driver -ops 10000 -threads $1 -endpoint $host:8000 -txrate $4 -db ethereum > $LOG_DIR/client_$host"_"$1 2>&1 &
   fi
 done
 

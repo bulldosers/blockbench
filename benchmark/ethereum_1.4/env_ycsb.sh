@@ -4,9 +4,9 @@ CLIENTS=$ETH_HOME/clients
 ETH_DATA=/data/fuwanzeng/eth
 LOG_DIR=$ETH_HOME/../data/ethereum1.4
 EXE_HOME=$ETH_HOME/../../src/macro/kvstore
-BENCHMARK=smallbank
+BENCHMARK=ycsb
 GETH=geth
 
 ##comment these out for smallbank
 #EXE_HOME=$ETH_HOME/../../src/smallbank/ethereum/ycsb
-#BENCHMARK=smallbank 
+#BENCHMARK=ycsb 

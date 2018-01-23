@@ -8,7 +8,7 @@ if (($#!=5)); then
 	TOT_OPS=10000
 fi
 cd `dirname ${BASH_SOURCE-$0}`
-EXE='../../src/macro_1.7/smallbank/driver'
+EXE='../../src/macro_1.7/kvstore/driver'
 
 export CPATH=/users/dinhtta/local/include
 export LIBRARY_PATH=/users/dinhtta/local/lib:$LIBRARY_PATH

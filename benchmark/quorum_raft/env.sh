@@ -3,12 +3,12 @@ HOSTS=$QUO_HOME/hosts
 CLIENTS=$QUO_HOME/clients
 QUO_DATA=/data/fuwanzeng/quorum_raft
 LOG_DIR=$QUO_HOME/../data/raft
-EXE_HOME=$QUO_HOME/../../src/macro_1.7/smallbank
-BENCHMARK=smallbank
+EXE_HOME=$QUO_HOME/../../src/macro_1.7/kvstore
+BENCHMARK=ycsb
 QUORUM=~/download/quorum/build/bin/geth
 ADDRESSES=$QUO_HOME/addresses
 
 ##comment these out for smallbank
 #EXE_HOME=$QUO_HOME/../../src/macro/smallbank
-#BENCHMARK=smallbank 
+#BENCHMARK=ycsb 
 #LOG_DIR=$QUO_HOME/smallbank_results_2

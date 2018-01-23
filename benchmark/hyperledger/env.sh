@@ -5,8 +5,8 @@ HL_DATA=/data/fuwanzeng/gowork
 HL_SOURCE=$HL_DATA/src/github.com/hyperledger/fabric
 LOG_DIR=$HL_HOME/donothing_donothingresults_1
 EXE_HOME=/users/fuwanzeng/blockchain-perf/src/macro/kvstore
-BENCHMARK=smallbank
+BENCHMARK=ycsb
 
 ##comment these out for smallbank
 #EXE_HOME=$HL_HOME/../../src/smallbank/hyperledger
-#BENCHMARK=smallbank
+#BENCHMARK=ycsb

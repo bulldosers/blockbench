@@ -11,10 +11,10 @@ TIMEOUT=150
 # running experiments
 RATES=[8]
 THREADS=[32]
-EXPS=[(32,16), (32,8), (16,16), (16,8)]
+EXPS=[(32,16)]
 #EXPS=[(32,8)]
 ENV='env.sh'
-NNODES=[4]
+NNODES=[2,4,8]
 
 def change_config(run_no):
   f = open(ENV,'r')

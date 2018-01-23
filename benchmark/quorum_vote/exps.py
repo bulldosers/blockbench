@@ -7,9 +7,9 @@ import sys
 # running experiments
 RATES=[8]
 THREADS=[32]
-EXPS=[(8,4),(8,2),(4,4),(4,2),(2,2)]
+EXPS=[(4,2)]
 ENV='env.sh'
-NNODES=[2,4,8,12,16]
+NNODES=[2,4,8]
 
 def change_config(run_no):
   f = open(ENV,'r')

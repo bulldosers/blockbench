@@ -24,8 +24,8 @@ if __name__=='__main__':
   #time.sleep(10)
   #run_benchmark('drop', '-drop')
   #time.sleep(10)
-  run_benchmark('smallbank', '-smallbank')
+  #run_benchmark('smallbank', '-smallbank')
   #time.sleep(10)
-  #run_benchmark('donothing', '-donothing')
+  run_benchmark('donothing', '-donothing')
   #time.sleep(10)
   print 'DONE ALL BENCHMARKS for Parity'
